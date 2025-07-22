@@ -10,6 +10,7 @@ class PenerimaanLinen(models.Model):
         IGD = 'IGD', 'IGD'
         PENUNJANG_MEDIS = 'Penunjang Medis', 'Penunjang Medis'
         FASILITAS_UMUM = 'Fasilitas Umum', 'Fasilitas Umum'
+        RUANG_ISTIRAHAT_DOKTER = 'Ruang Istirahat Dokter'
         LAINNYA = 'Lainnya', 'Lainnya'
 
     tanggal = models.DateField(default=timezone.now, verbose_name="Tanggal Penerimaan")
@@ -101,7 +102,7 @@ class BeratLinenHarian(models.Model):
         choices=PenerimaanLinen.PilihanRuangan.choices,
         verbose_name="Ruangan"
     )
-    # == PENAMBAHAN FIELD SHIFT ==
+    # == FIELD SHIFT ==
     shift = models.CharField(
         max_length=10,
         choices=PilihanShift.choices,
