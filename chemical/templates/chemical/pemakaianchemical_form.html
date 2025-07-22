@@ -1,0 +1,56 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+
+{% block title %}Catat Pemakaian Chemical{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Catat Pemakaian Chemical</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+
+                        <div class="mb-3">
+                            <label for="{{ form.tanggal.id_for_label }}" class="form-label">{{ form.tanggal.label }}</label>
+                            {{ form.tanggal }}
+                            {% if form.tanggal.errors %}<div class="invalid-feedback d-block">{{ form.tanggal.errors|striptags }}</div>{% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.chemical.id_for_label }}" class="form-label">{{ form.chemical.label }}</label>
+                            {{ form.chemical }}
+                            {% if form.chemical.errors %}<div class="invalid-feedback d-block">{{ form.chemical.errors|striptags }}</div>{% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.jumlah.id_for_label }}" class="form-label">{{ form.jumlah.label }}</label>
+                            {{ form.jumlah }}
+                            {% if form.jumlah.errors %}<div class="invalid-feedback d-block">{{ form.jumlah.errors|striptags }}</div>{% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.keterangan.id_for_label }}" class="form-label">{{ form.keterangan.label }}</label>
+                            {{ form.keterangan }}
+                            {% if form.keterangan.errors %}<div class="invalid-feedback d-block">{{ form.keterangan.errors|striptags }}</div>{% endif %}
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Simpan Pemakaian</button>
+                        <a href="{% url 'chemical:pemakaian-list' %}" class="btn btn-secondary">Batal</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
