@@ -30,9 +30,7 @@ class Aset(models.Model):
         ordering = ['nama_barang']
 
 class TransaksiAset(models.Model):
-    """
-    Model untuk mencatat setiap transaksi aset (penambahan atau pengurangan).
-    """
+    """Model untuk mencatat setiap transaksi aset (penambahan atau pengurangan)."""
     class PilihanTransaksi(models.TextChoices):
         PENAMBAHAN = 'PENAMBAHAN', 'Penambahan'
         PENGURANGAN = 'PENGURANGAN', 'Pengurangan'

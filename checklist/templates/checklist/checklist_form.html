@@ -10,7 +10,6 @@
         <a href="{% url 'checklist:berat-list' %}" class="btn btn-info">Catat Berat Linen Kotor</a>
     </div>
     <hr>
-
     <form method="post" id="checklist-form" novalidate>
         {% csrf_token %}
         
@@ -38,8 +37,7 @@
 
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                Checklist Item Linen
-                
+                Checklist Item Linen    
             </div>
             <div class="card-body">
                 {{ item_formset.management_form }}
@@ -74,15 +72,14 @@
             </div>
         </div>
         <button type="button" id="add-item-btn" class="btn btn-success btn-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/></svg>
-                    Tambah Item
-                </button>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/></svg>
+            Tambah Item
+        </button>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
             <button type="submit" class="btn btn-primary">Simpan Data Penerimaan</button>
         </div>
     </form>
 </div>
-
 <!-- Template untuk baris baru -->
 <template id="item-form-template">
     <tr class="item-form">
