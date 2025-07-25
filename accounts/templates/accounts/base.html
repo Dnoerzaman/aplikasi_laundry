@@ -12,10 +12,10 @@
 
     {% if user.is_authenticated %}
     <header>
-        <nav class="navbar navbar-expand-lg fixed-top custom-navbar">
+        <nav class="navbar navbar-expand-lg fixed-t0p custom-navbar">
             <div class="container">
                 <a class="navbar-brand" href="{% url 'dashboard' %}">
-                    <img src="https://placehold.co/150x40/ffffff/007bff?text=LAUNDRY" alt="Logo Laundry" style="height: 40px;">
+                     <img src="{% static 'img/gambarlogo.jfif' %}" alt="Logo" alt="Logo Laundry" style="height: 60px;">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -74,7 +74,7 @@
 
     <!-- FOOTER -->
     {% if user.is_authenticated %}
-    <footer class="footer mt-auto py-3 bg-light text-center">
+    <footer class="footer mt-auto py-3 bg-text-bg-bg-light text-center">
         <div class="container">
             <span class="text-muted">&copy; {% now "Y" %} Unit Laundry Rumah Sakit</span>
         </div>
