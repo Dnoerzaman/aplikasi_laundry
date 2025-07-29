@@ -1,0 +1,19 @@
+.custom-navbar {
+    background-color: #84ddf8;
+    /* Warna Biru Langit dari kode Anda */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+/* warna link di navbar */
+
+.custom-navbar .nav-link,
+.custom-navbar .navbar-brand,
+.custom-navbar .navbar-text {
+    color: #2c3e50;
+    /* Warna biru tua agar kontras */
+}
+
+.custom-navbar .nav-link:hover {
+    color: #e6eaee;
+}

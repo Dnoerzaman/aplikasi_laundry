@@ -1,0 +1,140 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h3>{{ title }}</h3>
+        <a href="{% url 'checklist:berat-list' %}" class="btn btn-info">Catat Berat Linen Kotor</a>
+    </div>
+    <hr>
+    <form method="post" id="checklist-form" novalidate>
+        {% csrf_token %}
+        
+        <div class="card mb-4">
+            <div class="card-header">
+                Informasi Penerimaan Linen Kotor
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="{{ penerimaan_form.tanggal.id_for_label }}" class="form-label">{{ penerimaan_form.tanggal.label }}</label>
+                        {{ penerimaan_form.tanggal }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="{{ penerimaan_form.jam.id_for_label }}" class="form-label">{{ penerimaan_form.jam.label }}</label>
+                        {{ penerimaan_form.jam }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="{{ penerimaan_form.ruangan.id_for_label }}" class="form-label">{{ penerimaan_form.ruangan.label }}</label>
+                        {{ penerimaan_form.ruangan }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                Checklist Item Linen    
+            </div>
+            <div class="card-body">
+                {{ item_formset.management_form }}
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th style="width: 35%;">Nama Item</th>
+                                <th style="width: 15%;">Jumlah</th>
+                                <th style="width: 20%;">Kondisi</th>
+                                <th>Keterangan</th>
+                                <th style="width: 5%;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="item-list">
+                            {% for form in item_formset %}
+                            <tr class="item-form">
+                                {{ form.id }}
+                                <td>{{ form.nama_item }}</td>
+                                <td>{{ form.jumlah }}</td>
+                                <td>{{ form.kondisi }}</td>
+                                <td>{{ form.keterangan }}</td>
+                                <td class="text-center align-middle">
+                                    {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
+                                    <button type="button" class="btn btn-danger btn-sm remove-item-btn">X</button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <button type="button" id="add-item-btn" class="btn btn-success btn-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/></svg>
+            Tambah Item
+        </button>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+            <button type="submit" class="btn btn-primary">Simpan Data Penerimaan</button>
+        </div>
+    </form>
+</div>
+<!-- Template untuk baris baru -->
+<template id="item-form-template">
+    <tr class="item-form">
+        <td>{{ item_formset.empty_form.nama_item }}</td>
+        <td>{{ item_formset.empty_form.jumlah }}</td>
+        <td>{{ item_formset.empty_form.kondisi }}</td>
+        <td>{{ item_formset.empty_form.keterangan }}</td>
+        <td class="text-center align-middle">
+            <button type="button" class="btn btn-danger btn-sm remove-item-btn">X</button>
+        </td>
+    </tr>
+</template>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const addItemBtn = document.getElementById('add-item-btn');
+    const itemList = document.getElementById('item-list');
+    const formTemplate = document.getElementById('item-form-template');
+    const totalFormsInput = document.querySelector('#id_items-TOTAL_FORMS'); 
+
+    if (!totalFormsInput) {
+        console.error("Management form 'TOTAL_FORMS' tidak ditemukan. Pastikan prefix 'items' sudah benar di views.py.");
+        return;
+    }
+
+    // Fungsi untuk menambah baris baru
+    addItemBtn.addEventListener('click', function() {
+        let formNum = parseInt(totalFormsInput.value);
+        const newFormFragment = formTemplate.content.cloneNode(true);
+        
+        // Ganti placeholder '__prefix__' dengan nomor form yang benar
+        const newRow = newFormFragment.querySelector('.item-form');
+        newRow.innerHTML = newRow.innerHTML.replace(/__prefix__/g, formNum);
+
+        itemList.appendChild(newFormFragment);
+        totalFormsInput.value = formNum + 1;
+    });
+
+    // Fungsi untuk menghapus baris
+    itemList.addEventListener('click', function(e) {
+        if (e.target && e.target.classList.contains('remove-item-btn')) {
+            const row = e.target.closest('.item-form');
+            const deleteInput = row.querySelector('input[type="checkbox"][name$="-DELETE"]');
+            
+            if (deleteInput) {
+                // Jika ini adalah form yang sudah ada (punya checkbox DELETE), centang
+                deleteInput.checked = true;
+                row.style.display = 'none'; // Sembunyikan baris
+            } else {
+                // Jika ini adalah baris baru yang belum disimpan, hapus saja dari DOM
+                row.remove();
+            }
+        }
+    });
+});
+</script>
+{% endblock %}
+  

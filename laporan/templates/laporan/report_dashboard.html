@@ -1,0 +1,137 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3>{{ title }}</h3>
+    <p>Pilih rentang tanggal untuk laporan berbasis transaksi, atau langsung cetak untuk laporan rekapitulasi.</p>
+    <hr>
+
+    <form id="filter-form">
+        <div class="card mb-4 border-light shadow-sm">
+            <div class="card-header bg-transparent">
+                Filter Laporan Berbasis Tanggal
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3 mb-md-0">
+                        {{ form.start_date.label_tag }}
+                        {{ form.start_date }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form.end_date.label_tag }}
+                        {{ form.end_date }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <h5 class="mt-4">Laporan Berbasis Transaksi (Membutuhkan Filter Tanggal)</h5>
+    <div class="row mt-2">
+
+        <!-- Laporan Penerimaan Linen -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm" style="background-color: #e7f3ff;">
+                <div class="card-body text-center d-flex flex-column">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-card-checklist text-primary mx-auto mb-3" viewBox="0 0 16 16"><path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/><path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/></svg>
+                    <h5 class="card-title">Penerimaan Linen</h5>
+                    <p class="card-text small text-muted">Ekspor data penerimaan linen kotor beserta rincian itemnya.</p>
+                    <button onclick="exportWithDate('{% url 'laporan:export-checklist' %}')" class="btn btn-primary mt-auto">Cetak Laporan</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Laporan Pemakaian Chemical -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm" style="background-color: #fdeaea;">
+                <div class="card-body text-center d-flex flex-column">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-droplet-half text-danger mx-auto mb-3" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M7.21.8C7.69.295 8.31.295 8.79.8l5.25 6.05a.5.5 0 0 1-.44 1.15H2.4a.5.5 0 0 1-.44-1.15l5.25-6.05zM8 0a1.5 1.5 0 0 1 1.3.7l5.25 6.05a1.5 1.5 0 0 1-1.3 2.25H2.75a1.5 1.5 0 0 1-1.3-2.25L6.7 1.3A1.5 1.5 0 0 1 8 0z"/><path fill-rule="evenodd" d="M8 16a6 6 0 0 0 6-6c0-1.655-1.122-4.903-6-10-4.878 5.097-6 8.345-6 10a6 6 0 0 0 6 6zM8 15a5 5 0 0 0 5-5c0-1.204-.77-3.6-5-8.18-4.23 4.58-5 6.976-5 8.18a5 5 0 0 0 5 5z"/></svg>
+                    <h5 class="card-title">Pemakaian Chemical</h5>
+                    <p class="card-text small text-muted">Ekspor riwayat pemakaian semua jenis chemical.</p>
+                    <button onclick="exportWithDate('{% url 'laporan:export-pemakaian-chemical' %}')" class="btn btn-primary mt-auto">Cetak Laporan</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Laporan Transaksi Linen -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm" style="background-color: #e5f7f0;">
+                <div class="card-body text-center d-flex flex-column">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-arrow-left-right text-success mx-auto mb-3" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5zm14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5z"/></svg>
+                    <h5 class="card-title">Transaksi Linen</h5>
+                    <p class="card-text small text-muted">Ekspor semua riwayat transaksi linen masuk dan keluar.</p>
+                    <button onclick="exportWithDate('{% url 'laporan:export-transaksi-linen' %}')" class="btn btn-primary mt-auto">Cetak Laporan</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Laporan Berat Linen -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm" style="background-color: #e1f6f8;">
+                <div class="card-body text-center d-flex flex-column">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-rulers text-info mx-auto mb-3" viewBox="0 0 16 16"><path d="M1 0a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h5v-1H2v-1h4v-1H4v-1h2v-1H2v-1h4V9H4V8h2V7H2V6h4V2h1v4h1V4h1v2h1V3h1v3h1V5h1v2h1V2h-1v1h-1V1H1z"/></svg>
+                    <h5 class="card-title">Berat Linen</h5>
+                    <p class="card-text small text-muted">Ekspor data berat linen kotor harian per ruangan dan shift.</p>
+                    <button onclick="exportWithDate('{% url 'laporan:export-berat-linen' %}')" class="btn btn-primary mt-auto">Cetak Laporan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h5 class="mt-4">Laporan Rekapitulasi (Snapshot)</h5>
+     <div class="row mt-2">
+
+        <!-- Laporan Stok Chemical -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm bg-light">
+                <div class="card-body text-center d-flex flex-column">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-archive text-secondary mx-auto mb-3" viewBox="0 0 16 16"><path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1V2zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5H2zm13-3H1v2h14V2zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/></svg>
+                    <h5 class="card-title">Stok Chemical</h5>
+                    <p class="card-text small text-muted">Ekspor data snapshot stok akhir semua chemical.</p>
+                    <a href="{% url 'laporan:export-stok-chemical' %}" class="btn btn-secondary mt-auto">Cetak Laporan</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Laporan Aset -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm bg-light">
+                <div class="card-body text-center d-flex flex-column">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-box-seam text-secondary mx-auto mb-3" viewBox="0 0 16 16"><path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z"/></svg>
+                    <h5 class="card-title">Daftar Aset</h5>
+                    <p class="card-text small text-muted">Ekspor semua data inventaris aset tetap laundry.</p>
+                    <a href="{% url 'laporan:export-aset' %}" class="btn btn-secondary mt-auto">Cetak Laporan</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Laporan Schedule -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm" style="background-color: #fff8e1;">
+                <div class="card-body text-center d-flex flex-column">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-calendar-check text-warning mx-auto mb-3" viewBox="0 0 16 16"><path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/><path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/></svg>
+                    <h5 class="card-title">Rencana Kerja</h5>
+                    <p class="card-text small text-muted">Ekspor semua data tugas atau rencana kerja yang ada.</p>
+                    <a href="{% url 'laporan:export-schedule' %}" class="btn btn-secondary mt-auto">Cetak Laporan</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function exportWithDate(baseUrl) {
+    const startDate = document.getElementById('id_start_date').value;
+    const endDate = document.getElementById('id_end_date').value;
+
+    if (!startDate || !endDate) {
+        alert('Harap pilih Tanggal Mulai dan Tanggal Selesai terlebih dahulu.');
+        return;
+    }
+
+    const exportUrl = `${baseUrl}?start_date=${startDate}&end_date=${endDate}`;
+    window.location.href = exportUrl;
+}
+</script>
+{% endblock %}

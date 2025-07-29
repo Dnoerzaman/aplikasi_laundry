@@ -1,0 +1,58 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}Daftar Inventaris Aset{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Daftar Inventaris Aset</h3>
+        <div>
+            <a href="{% url 'aset_laundry:transaksi-catat' %}" class="btn btn-primary">Catat Transaksi</a>
+            <a href="{% url 'aset_laundry:aset-tambah' %}" class="btn btn-success">Tambah Aset Baru</a>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Nama Barang</th>
+                            <th>Jumlah</th>
+                            <th>Satuan</th>
+                            <th>Merk/Tipe</th>
+                            <th>SN</th>
+                            <th>Thn. Pengadaan</th>
+                            <th>Tgl. Input</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for aset in semua_aset %}
+                        <tr>
+                            <td>{{ aset.nama_barang }}</td>
+                            <td>{{ aset.jumlah }}</td>
+                            <td>{{ aset.get_satuan_display }}</td>
+                            <td>{{ aset.merk|default:"-" }}</td>
+                            <td>{{ aset.serial_number|default:"-" }}</td>
+                            <td>{{ aset.tahun_pengadaan|default:"-" }}</td>
+                            <td>{{ aset.tanggal_input|date:"d M Y" }}</td>
+                            <td>
+                                <a href="{% url 'aset_laundry:aset-ubah' pk=aset.pk %}" class="btn btn-warning btn-sm">Ubah</a>
+                                <a href="{% url 'aset_laundry:aset-hapus' pk=aset.pk %}" class="btn btn-danger btn-sm">Hapus</a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="8" class="text-center">Belum ada data aset.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% include 'includes/pagination.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}

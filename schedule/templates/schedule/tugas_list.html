@@ -1,0 +1,61 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}Rencana Kerja{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Rencana Kerja</h3>
+        <a href="{% url 'schedule:tugas-tambah' %}" class="btn btn-primary">Tambah Tugas Baru</a>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Judul Tugas</th>
+                            <th>Keterangan</th>
+                            <th>Status</th>
+                            <th>Penanggung Jawab</th>
+                            <th>Target Waktu</th>
+                            <th>Bulan & Tahun</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for tugas in semua_tugas %}
+                        <tr>
+                            <td>{{ tugas.judul }}</td>
+                            <td>{{ tugas.deskripsi|default:"-"|truncatewords:15 }}</td>
+                            <td>
+                                {% if tugas.status == 'Selesai' %}
+                                    <span class="badge bg-success">{{ tugas.get_status_display }}</span>
+                                {% elif tugas.status == 'Sedang Dikerjakan' %}
+                                    <span class="badge bg-warning text-dark">{{ tugas.get_status_display }}</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">{{ tugas.get_status_display }}</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ tugas.penanggung_jawab.username|default:"-" }}</td>
+                            <td>{{ tugas.get_target_waktu_display }}</td>
+                            <td>{{ tugas.periode|default:"-" }}</td>
+                            <td>
+                                <a href="{% url 'schedule:tugas-ubah' pk=tugas.pk %}" class="btn btn-warning btn-sm">Ubah</a>
+                                <a href="{% url 'schedule:tugas-hapus' pk=tugas.pk %}" class="btn btn-danger btn-sm">Hapus</a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center">Belum ada rencana kerja.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% include 'includes/pagination.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}Daftar Stok Linen{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Daftar Stok Linen per Ruangan</h3>
+        <div>
+            <a href="{% url 'stok_linen:stok-tambah' %}" class="btn btn-success">Tambah Stok Linen</a>
+            <a href="{% url 'stok_linen:transaksi-catat' %}" class="btn btn-primary">Catat Transaksi</a>
+        </div>
+    </div>
+        
+    <div class="card">
+        <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Ruangan</th>
+                            <th>Nama Linen</th>
+                            <th>Stok Akhir</th>
+                            <th>Keterangan</th>
+                            <th>Update Terakhir</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for linen in semua_stok_linen %}
+                        <tr>
+                            <td>{{ linen.get_ruangan_display }}</td>
+                            <td>{{ linen.get_nama_linen_display }}</td>
+                            <td>{{ linen.stok_akhir }}</td>
+                            <td>{{ linen.keterangan|default:"-" }}</td>
+                            <td>{{ linen.update_terakhir|date:"d M Y" }}</td>
+                            <td>
+                                <a href="{% url 'stok_linen:stok-ubah' pk=linen.pk %}" class="btn btn-warning btn-sm">Ubah</a>
+                            </td>
+                        </tr>
+                            {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center">Belum ada data linen. Silakan tambah stok linen baru.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% include 'includes/pagination.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+    
