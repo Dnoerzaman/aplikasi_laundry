@@ -8,54 +8,21 @@
     <span class="text-muted">Selamat datang kembali, {{ user.username }}!</span>
 </div>
 
-<!-- Kartu Statistik -->
+<!-- Kartu Statistik Utama -->
 <div class="row">
-    <!-- Card: Penerimaan Linen (Minggu Ini) -->
-    <div class="col-md-6 col-lg-4 mb-4">
+    <!-- Card: Penerimaan Linen (Bulan Ini) -->
+    <div class="col-md-4 mb-4">
         <div class="card bg-primary text-white shadow-sm h-100">
             <div class="card-body">
-                <h6 class="card-subtitle mb-2">Penerimaan Linen Kotor (Minggu Ini)</h6>
-                <p class="card-text fs-2 fw-bold">{{ penerimaan_minggu_ini }} <span class="fs-6 fw-normal">Checklist</span></p>
-                <small>Total dari Senin s/d Sabtu</small>
-            </div>
-        </div>
-    </div>
-
-    <!-- Card: Penerimaan Linen (Bulan Ini) -->
-    <div class="col-md-6 col-lg-4 mb-4">
-        <div class="card bg-secondary text-white shadow-sm h-100">
-            <div class="card-body">
-                <h6 class="card-subtitle mb-2">Penerimaan Linen Kotor (Bulan Ini)</h6>
+                <h6 class="card-subtitle mb-2">Penerimaan Linen (Bulan Ini)</h6>
                 <p class="card-text fs-2 fw-bold">{{ penerimaan_bulan_ini }} <span class="fs-6 fw-normal">Checklist</span></p>
                 <small>Total dari Awal s/d Akhir Bulan</small>
             </div>
         </div>
     </div>
 
-    <!-- Card: Berat Linen (Minggu Ini) -->
-    <div class="col-md-6 col-lg-4 mb-4">
-        <div class="card bg-success text-white shadow-sm h-100">
-            <div class="card-body">
-                <h6 class="card-subtitle mb-2">Berat Linen Kotor (Minggu Ini)</h6>
-                <p class="card-text fs-2 fw-bold">{{ berat_minggu_ini|floatformat:2 }} <span class="fs-6 fw-normal">Kg</span></p>
-                <small>Total dari Senin s/d Sabtu</small>
-            </div>
-        </div>
-    </div>
-
-    <!-- Card: Berat Linen (Bulan Ini) -->
-    <div class="col-md-6 col-lg-4 mb-4">
-        <div class="card bg-info text-dark shadow-sm h-100">
-            <div class="card-body">
-                <h6 class="card-subtitle mb-2">Berat Linen Kotor (Bulan Ini)</h6>
-                <p class="card-text fs-2 fw-bold">{{ berat_bulan_ini|floatformat:2 }} <span class="fs-6 fw-normal">Kg</span></p>
-                <small>Total dari Awal s/d Akhir Bulan</small>
-            </div>
-        </div>
-    </div>
-
     <!-- Card: Pemakaian Chemical (Bulan Ini) -->
-    <div class="col-md-6 col-lg-4 mb-4">
+    <div class="col-md-4 mb-4">
         <div class="card bg-danger text-white shadow-sm h-100">
             <div class="card-body">
                 <h6 class="card-subtitle mb-2">Pemakaian Chemical (Bulan Ini)</h6>
@@ -66,12 +33,45 @@
     </div>
 
     <!-- Card: Rencana Kerja Aktif -->
-    <div class="col-md-6 col-lg-4 mb-4">
+    <div class="col-md-4 mb-4">
         <div class="card bg-warning text-dark shadow-sm h-100">
             <div class="card-body">
                 <h6 class="card-subtitle mb-2">Rencana Kerja Aktif</h6>
                 <p class="card-text fs-2 fw-bold">{{ rencana_kerja_aktif }} <span class="fs-6 fw-normal">Tugas</span></p>
                 <small>Total tugas yang belum selesai</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tabel Rincian Berat Linen Kotor -->
+<div class="row mt-3">
+    <div class="col-12">
+        <div class="card border-light shadow-sm">
+            <div class="card-header bg-transparent">
+                <h4 class="h4">Ringkasan Berat Linen Kotor (Kg)</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Nama Ruangan</th>
+                                <th>Berat Minggu Ini (Senin-Sabtu)</th>
+                                <th>Berat Bulan Ini</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in data_berat_per_ruangan %}
+                            <tr>
+                                <td>{{ item.nama_ruangan }}</td>
+                                <td>{{ item.berat_minggu_ini|floatformat:2 }}</td>
+                                <td>{{ item.berat_bulan_ini|floatformat:2 }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
