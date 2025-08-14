@@ -10,70 +10,134 @@
 
 <!-- Kartu Statistik Utama -->
 <div class="row">
-    <!-- Card: Penerimaan Linen (Bulan Ini) -->
     <div class="col-md-4 mb-4">
         <div class="card bg-primary text-white shadow-sm h-100">
             <div class="card-body">
                 <h6 class="card-subtitle mb-2">Penerimaan Linen (Bulan Ini)</h6>
                 <p class="card-text fs-2 fw-bold">{{ penerimaan_bulan_ini }} <span class="fs-6 fw-normal">Checklist</span></p>
-                <small>Total dari Awal s/d Akhir Bulan</small>
             </div>
         </div>
     </div>
-
-    <!-- Card: Pemakaian Chemical (Bulan Ini) -->
     <div class="col-md-4 mb-4">
         <div class="card bg-danger text-white shadow-sm h-100">
             <div class="card-body">
                 <h6 class="card-subtitle mb-2">Pemakaian Chemical (Bulan Ini)</h6>
                 <p class="card-text fs-2 fw-bold">{{ pemakaian_chemical_bulan_ini }} <span class="fs-6 fw-normal">Transaksi</span></p>
-                <small>Total dari Awal s/d Akhir Bulan</small>
             </div>
         </div>
     </div>
-
-    <!-- Card: Rencana Kerja Aktif -->
     <div class="col-md-4 mb-4">
         <div class="card bg-warning text-dark shadow-sm h-100">
             <div class="card-body">
                 <h6 class="card-subtitle mb-2">Rencana Kerja Aktif</h6>
                 <p class="card-text fs-2 fw-bold">{{ rencana_kerja_aktif }} <span class="fs-6 fw-normal">Tugas</span></p>
-                <small>Total tugas yang belum selesai</small>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Tabel Rincian Berat Linen Kotor -->
+<!-- Rincian Berat Linen Kotor dengan Diagram -->
 <div class="row mt-3">
     <div class="col-12">
         <div class="card border-light shadow-sm">
             <div class="card-header bg-transparent">
-                <h4 class="h4">Ringkasan Berat Linen Kotor (Kg)</h4>
+                <h4 class="h4">Ringkasan Berat Linen Kotor (Kg) - Bulan Ini</h4>
             </div>
             <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Nama Ruangan</th>
-                                <th>Berat Minggu Ini (Senin-Sabtu)</th>
-                                <th>Berat Bulan Ini</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for item in data_berat_per_ruangan %}
-                            <tr>
-                                <td>{{ item.nama_ruangan }}</td>
-                                <td>{{ item.berat_minggu_ini|floatformat:2 }}</td>
-                                <td>{{ item.berat_bulan_ini|floatformat:2 }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                <div class="row align-items-center">
+                    <!-- Kolom Diagram Lingkaran -->
+                    <div class="col-md-5">
+                        <canvas id="beratLinenPieChart"></canvas>
+                    </div>
+                    <!-- Kolom Tabel Rincian -->
+                    <div class="col-md-7">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Nama Ruangan</th>
+                                        <th>Berat Minggu Ini</th>
+                                        <th>Berat Bulan Ini</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in data_berat_per_ruangan %}
+                                    <tr>
+                                        <td>{{ item.nama_ruangan }}</td>
+                                        <td>{{ item.berat_minggu_ini|floatformat:2 }}</td>
+                                        <td><strong>{{ item.berat_bulan_ini|floatformat:2 }}</strong></td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Memuat library Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Script untuk membuat diagram -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('beratLinenPieChart');
+    const chartLabels = JSON.parse('{{ chart_labels|safe }}');
+    const chartData = JSON.parse('{{ chart_data|safe }}');
+
+    // Hanya tampilkan chart jika ada data
+    if (chartData.length > 0) {
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: chartLabels,
+                datasets: [{
+                    label: 'Berat Linen (Kg)',
+                    data: chartData,
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                        'rgba(75, 192, 192, 0.7)',
+                        'rgba(153, 102, 255, 0.7)',
+                        'rgba(255, 159, 64, 0.7)',
+                        'rgba(99, 255, 132, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(99, 255, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Persentase Berat Linen per Ruangan (Bulan Ini)'
+                    }
+                }
+            }
+        });
+    } else {
+        // Tampilkan pesan jika tidak ada data
+        const canvas = document.getElementById('beratLinenPieChart');
+        const context = canvas.getContext('2d');
+        context.textAlign = 'center';
+        context.fillText('Belum ada data berat linen bulan ini.', canvas.width / 2, canvas.height / 2);
+    }
+});
+</script>
 {% endblock %}
