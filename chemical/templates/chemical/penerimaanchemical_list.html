@@ -1,12 +1,12 @@
 {% extends 'accounts/base.html' %}
 
-{% block title %}Riwayat Pemakaian Chemical{% endblock %}
+{% block title %}Riwayat Stok Masuk{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3>Riwayat Pemakaian Chemical</h3>
-        <a href="{% url 'chemical:pemakaian-catat' %}" class="btn btn-primary">Catat Pemakaian Baru</a>
+        <h3>Riwayat Stok Masuk</h3>
+        <a href="{% url 'chemical:penerimaan-tambah' %}" class="btn btn-primary">Tambah Stok Masuk</a>
     </div>
     
     <div class="card">
@@ -17,23 +17,23 @@
                         <tr>
                             <th>Tanggal</th>
                             <th>Nama Chemical</th>
-                            <th>Jumlah Pemakaian</th>
+                            <th>Jumlah Masuk</th>
                             <th>Petugas</th>
                             <th>Keterangan</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for pemakaian in semua_pemakaian %}
+                        {% for item in semua_penerimaan %}
                         <tr>
-                            <td>{{ pemakaian.tanggal|date:"d M Y" }}</td>
-                            <td>{{ pemakaian.chemical.get_nama_chemical_display }}</td>
-                            <td>{{ pemakaian.jumlah|floatformat:2 }} {{ pemakaian.chemical.get_unit_display }}</td>
-                            <td>{{ pemakaian.petugas.username }}</td>
-                            <td>{{ pemakaian.keterangan|default:"-" }}</td>
+                            <td>{{ item.tanggal|date:"d M Y" }}</td>
+                            <td>{{ item.chemical.get_nama_chemical_display }}</td>
+                            <td>{{ item.jumlah|floatformat:2 }} {{ item.chemical.get_unit_display }}</td>
+                            <td>{{ item.petugas.username }}</td>
+                            <td>{{ item.keterangan|default:"-" }}</td>
                         </tr>
                         {% empty %}
                         <tr>
-                            <td colspan="5" class="text-center">Belum ada riwayat pemakaian chemical.</td>
+                            <td colspan="5" class="text-center">Belum ada riwayat stok masuk.</td>
                         </tr>
                         {% endfor %}
                     </tbody>

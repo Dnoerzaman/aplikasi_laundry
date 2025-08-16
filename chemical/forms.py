@@ -1,5 +1,5 @@
 from django import forms
-from .models import StokChemical, PemakaianChemical
+from .models import StokChemical, PemakaianChemical, PenerimaanChemical
 
 class StokChemicalForm(forms.ModelForm):
     class Meta:
@@ -14,6 +14,17 @@ class StokChemicalForm(forms.ModelForm):
 class PemakaianChemicalForm(forms.ModelForm):
     class Meta:
         model = PemakaianChemical
+        fields = ['tanggal', 'chemical', 'jumlah', 'keterangan']
+        widgets = {
+            'tanggal': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'chemical': forms.Select(attrs={'class': 'form-select'}),
+            'jumlah': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
+            'keterangan': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+        }
+
+class PenerimaanChemicalForm(forms.ModelForm):
+    class Meta:
+        model = PenerimaanChemical
         fields = ['tanggal', 'chemical', 'jumlah', 'keterangan']
         widgets = {
             'tanggal': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),

@@ -1,14 +1,14 @@
 {% extends 'accounts/base.html' %}
-
 {% block title %}Daftar Stok Chemical{% endblock %}
-
 {% block content %}
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3>Daftar Stok Chemical</h3>
-        <a href="{% url 'chemical:stok-tambah' %}" class="btn btn-primary">Tambah Chemical Baru</a>
-    </div>
-    
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3>Daftar Stok Chemical</h3>
+            <div>
+                <a href="{% url 'chemical:penerimaan-tambah' %}" class="btn btn-success">Tambah Stok Masuk</a>
+                <a href="{% url 'chemical:stok-tambah' %}" class="btn btn-primary">Tambah Chemical Baru</a>
+            </div>
+        </div>   
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
