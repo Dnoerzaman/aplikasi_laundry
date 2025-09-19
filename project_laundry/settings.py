@@ -140,7 +140,7 @@ LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'accounts:login'
 
 # Setting Session Timeout (1 jam = 3600 detik)
-SESSION_COOKIE_AGE = 3600 
+SESSION_COOKIE_AGE = 18000 
 
 # Mereset timer session setiap kali ada request dari user
 SESSION_SAVE_EVERY_REQUEST = True
