@@ -1,4 +1,5 @@
 {% extends 'accounts/base.html' %}
+<<<<<<< HEAD
 {% block title %}Daftar Stok Chemical{% endblock %}
 {% block content %}
     <div class="container mt-4">
@@ -9,6 +10,18 @@
                 <a href="{% url 'chemical:stok-tambah' %}" class="btn btn-primary">Tambah Chemical Baru</a>
             </div>
         </div>   
+=======
+
+{% block title %}Daftar Stok Chemical{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Daftar Stok Chemical</h3>
+        <a href="{% url 'chemical:stok-tambah' %}" class="btn btn-primary">Tambah Chemical Baru</a>
+    </div>
+    
+>>>>>>> e6bd4a31ed08b1db63967fbd062834b409247b88
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
