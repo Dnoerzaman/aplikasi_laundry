@@ -1,21 +1,10 @@
-<<<<<<< HEAD
-=======
-from django.shortcuts import render
->>>>>>> e6bd4a31ed08b1db63967fbd062834b409247b88
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.contrib import messages
-<<<<<<< HEAD
 from .models import StokChemical, PemakaianChemical, PenerimaanChemical
 from .forms import StokChemicalForm, PemakaianChemicalForm, PenerimaanChemicalForm
-=======
-from .models import StokChemical, PemakaianChemical
-from .forms import StokChemicalForm, PemakaianChemicalForm
-
-# --- Views untuk Stok Chemical (CRUD) ---
->>>>>>> e6bd4a31ed08b1db63967fbd062834b409247b88
 
 class StokChemicalListView(LoginRequiredMixin, ListView):
     model = StokChemical
@@ -50,11 +39,6 @@ class StokChemicalDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'chemical/stokchemical_confirm_delete.html'
     success_url = reverse_lazy('chemical:stok-list')
 
-<<<<<<< HEAD
-=======
-# --- Views untuk Pemakaian Chemical ---
-
->>>>>>> e6bd4a31ed08b1db63967fbd062834b409247b88
 class PemakaianChemicalListView(LoginRequiredMixin, ListView):
     model = PemakaianChemical
     template_name = 'chemical/pemakaianchemical_list.html'
@@ -68,40 +52,18 @@ class PemakaianChemicalCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('chemical:pemakaian-list')
 
     def form_valid(self, form):
-<<<<<<< HEAD
         try:
             with transaction.atomic():
                 pemakaian = form.save(commit=False)
                 chemical = pemakaian.chemical
 
-=======
-        """
-        Method ini dijalankan saat form pemakaian valid.
-        Di sinilah logika pengurangan stok otomatis terjadi.
-        """
-        try:
-            with transaction.atomic():
-                # 1. Ambil data dari form tanpa menyimpan ke DB dulu
-                pemakaian = form.save(commit=False)
-                chemical = pemakaian.chemical
-
-                # 2. Validasi: Cek apakah stok mencukupi
->>>>>>> e6bd4a31ed08b1db63967fbd062834b409247b88
                 if chemical.jumlah_stok < pemakaian.jumlah:
                     form.add_error('jumlah', f'Stok {chemical.nama_chemical} tidak mencukupi. Stok tersedia: {chemical.jumlah_stok} {chemical.unit}.')
                     return self.form_invalid(form)
 
-<<<<<<< HEAD
                 chemical.jumlah_stok -= pemakaian.jumlah
                 chemical.save()
 
-=======
-                # 3. Kurangi stok
-                chemical.jumlah_stok -= pemakaian.jumlah
-                chemical.save()
-
-                # 4. Simpan data pemakaian
->>>>>>> e6bd4a31ed08b1db63967fbd062834b409247b88
                 pemakaian.petugas = self.request.user
                 pemakaian.save()
                 
@@ -111,7 +73,6 @@ class PemakaianChemicalCreateView(LoginRequiredMixin, CreateView):
             return self.form_invalid(form)
             
         return super().form_valid(form)
-<<<<<<< HEAD
 
 class PenerimaanChemicalListView(LoginRequiredMixin, ListView):
     model = PenerimaanChemical
@@ -145,5 +106,3 @@ class PenerimaanChemicalCreateView(LoginRequiredMixin, CreateView):
             return self.form_invalid(form)
             
         return super().form_valid(form)
-=======
->>>>>>> e6bd4a31ed08b1db63967fbd062834b409247b88

@@ -49,7 +49,6 @@ class PemakaianChemical(models.Model):
         verbose_name = "Pemakaian Chemical"
         verbose_name_plural = "Riwayat Pemakaian Chemical"
         ordering = ['-tanggal']
-<<<<<<< HEAD
 
 
 class PenerimaanChemical(models.Model):
@@ -69,5 +68,3 @@ class PenerimaanChemical(models.Model):
         verbose_name = "Penerimaan Chemical"
         verbose_name_plural = "Riwayat Penerimaan Chemical"
         ordering = ['-tanggal']
-=======
->>>>>>> e6bd4a31ed08b1db63967fbd062834b409247b88

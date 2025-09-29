@@ -54,6 +54,7 @@ class ItemLinen(models.Model):
         SEJADAH = 'Sejadah', 'Sejadah'
         BEDSET = 'Bedset', 'Bedset'
         GORDEN = 'Gorden', 'Gorden'
+        SNELI_DOKTER = 'Sneli Dokter', 'Sneli Dokter'
 
     class PilihanKondisi(models.TextChoices):
         BAIK = 'Baik', 'Baik'
@@ -94,7 +95,6 @@ class BeratLinenHarian(models.Model):
     class PilihanShift(models.TextChoices):
         SHIFT_1 = 'Shift 1', 'Shift 1'
         SHIFT_2 = 'Shift 2', 'Shift 2'
-        SHIFT_3 = 'Shift 3', 'Shift 3'
 
     tanggal = models.DateField(verbose_name="Tanggal")
     ruangan = models.CharField(

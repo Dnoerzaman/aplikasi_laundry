@@ -1,50 +1,50 @@
 {% extends 'accounts/base.html' %}
-
-{% block title %}Riwayat Pemakaian Chemical{% endblock %}
-
+{% block title %}Riwayat Pemakaian Chemical{%endblock %} 
 {% block content %}
 <div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3>Riwayat Pemakaian Chemical</h3>
-        <a href="{% url 'chemical:pemakaian-catat' %}" class="btn btn-primary">Catat Pemakaian Baru</a>
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Riwayat Pemakaian Chemical</h3>
+    <a href="{% url 'chemical:pemakaian-catat' %}" class="btn btn-primary"
+      >Catat Pemakaian Baru</a
+    >
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead class="table-light">
+            <tr>
+              <th>Tanggal</th>
+              <th>Nama Chemical</th>
+              <th>Jumlah Pemakaian</th>
+              <th>Petugas</th>
+              <th>Keterangan</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for pemakaian in semua_pemakaian %}
+            <tr>
+              <td>{{ pemakaian.tanggal|date:"d M Y" }}</td>
+              <td>{{ pemakaian.chemical.get_nama_chemical_display }}</td>
+              <td>
+                {{ pemakaian.jumlah|floatformat:2 }} {{ pemakaian.chemical.get_unit_display }}
+              </td>
+              <td>{{ pemakaian.petugas.username }}</td>
+              <td>{{ pemakaian.keterangan|default:"-" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="5" class="text-center">
+                Belum ada riwayat pemakaian chemical.
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% include 'includes/pagination.html' %}
     </div>
-    
-    <div class="card">
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Tanggal</th>
-                            <th>Nama Chemical</th>
-                            <th>Jumlah Pemakaian</th>
-                            <th>Petugas</th>
-                            <th>Keterangan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for pemakaian in semua_pemakaian %}
-                        <tr>
-                            <td>{{ pemakaian.tanggal|date:"d M Y" }}</td>
-                            <td>{{ pemakaian.chemical.get_nama_chemical_display }}</td>
-                            <td>{{ pemakaian.jumlah|floatformat:2 }} {{ pemakaian.chemical.get_unit_display }}</td>
-                            <td>{{ pemakaian.petugas.username }}</td>
-                            <td>{{ pemakaian.keterangan|default:"-" }}</td>
-                        </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="5" class="text-center">Belum ada riwayat pemakaian chemical.</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            {% include 'includes/pagination.html' %}
-        </div>
-    </div>
+  </div>
 </div>
-<<<<<<< HEAD
 {% endblock %}
-=======
-{% endblock %}
->>>>>>> e6bd4a31ed08b1db63967fbd062834b409247b88
