@@ -5,8 +5,8 @@
 {% block content %}
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3>Rencana Kerja</h3>
-        <a href="{% url 'schedule:tugas-tambah' %}" class="btn btn-primary">Tambah Tugas Baru</a>
+        <h3>Log Pekerjaan</h3>
+        <a href="{% url 'schedule:tugas-tambah' %}" class="btn btn-primary">Tambah Catatan</a>
     </div>
     
     <div class="card">
@@ -15,12 +15,12 @@
                 <table class="table table-hover">
                     <thead class="table-light">
                         <tr>
-                            <th>Judul Tugas</th>
+                            <th>Pekerjaan</th>
                             <th>Keterangan</th>
                             <th>Status</th>
                             <th>Penanggung Jawab</th>
                             <th>Target Waktu</th>
-                            <th>Bulan & Tahun</th>
+                            <th>Waktu</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>

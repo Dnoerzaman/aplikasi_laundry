@@ -17,7 +17,7 @@ class Tugas(models.Model):
         MINGGU_3 = 'Minggu ke-3', 'Minggu ke-3'
         MINGGU_4 = 'Minggu ke-4', 'Minggu ke-4'
 
-    judul = models.CharField(max_length=200, verbose_name="Judul Tugas")
+    judul = models.CharField(max_length=200, verbose_name="Pekerjaan")
     deskripsi = models.TextField(blank=True, null=True, verbose_name="Deskripsi")
     status = models.CharField(
         max_length=20,
@@ -39,7 +39,7 @@ class Tugas(models.Model):
         verbose_name="Target Waktu"
     )
     
-    periode = models.CharField(max_length=50, blank=True, null=True, verbose_name="Bulan & Tahun")
+    periode = models.CharField(max_length=50, blank=True, null=True, verbose_name="waktu")
     dibuat_pada = models.DateTimeField(auto_now_add=True)
     diperbarui_pada = models.DateTimeField(auto_now=True)
 
