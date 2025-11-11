@@ -1,7 +1,6 @@
 from django import forms
 from .models import PenerimaanLinen, ItemLinen, BeratLinenHarian
 
-# ... (PenerimaanLinenForm dan ItemLinenFormSet tetap sama) ...
 class PenerimaanLinenForm(forms.ModelForm):
     class Meta:
         model = PenerimaanLinen

@@ -13,8 +13,8 @@ class PenerimaanLinen(models.Model):
         RUANG_ISTIRAHAT_DOKTER = 'Ruang Istirahat Dokter'
         LAINNYA = 'Lainnya', 'Lainnya'
 
-    tanggal = models.DateField(default=timezone.now, verbose_name="Tanggal Penerimaan")
-    jam = models.TimeField(default=timezone.now, verbose_name="Jam Penerimaan")
+    tanggal = models.DateField(default=timezone.localdate, verbose_name="Tanggal Penerimaan")
+    jam = models.TimeField(default=timezone.localdate, verbose_name="Jam Penerimaan")
     ruangan = models.CharField(
         max_length=100,
         choices=PilihanRuangan.choices,
