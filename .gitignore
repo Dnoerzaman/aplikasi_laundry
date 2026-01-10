@@ -24,3 +24,12 @@ staticfiles/
 # OS
 .DS_Store
 Thumbs.db
+
+# Abaikan folder data MySQL agar tidak memenuhi GitHub
+db_data/
+
+# Abaikan file backup SQL agar data pelanggan tidak bocor
+*.sql
+
+# Abaikan file zip hasil kompresi
+*.zip
