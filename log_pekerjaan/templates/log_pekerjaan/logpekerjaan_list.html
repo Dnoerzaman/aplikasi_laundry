@@ -1,0 +1,48 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}Daftar Log Pekerjaan{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Log Pekerjaan / Kejadian Harian</h3>
+        <a href="{% url 'log_pekerjaan:log-tambah' %}" class="btn btn-primary">Tambah Catatan Baru</a>
+    </div>
+    
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 15%;">Tanggal</th>
+                            <th>Keterangan Catatan / Kejadian</th>
+                            <th style="width: 15%;">PJ</th>
+                            <th style="width: 15%; text-align: center;">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for log in semua_log %}
+                        <tr>
+                            <td>{{ log.tanggal|date:"d-m-Y" }}</td>
+                            <td>{{ log.keterangan|linebreaksbr }}</td>
+                            <td>{{ log.pj.username }}</td>
+                            <td class="text-center">
+                                <a href="{% url 'log_pekerjaan:log-ubah' pk=log.pk %}" class="btn btn-warning btn-sm">Ubah</a>
+                                <a href="{% url 'log_pekerjaan:log-hapus' pk=log.pk %}" class="btn btn-danger btn-sm">Hapus</a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center text-muted">Belum ada catatan log pekerjaan.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+            {% include 'includes/pagination.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}

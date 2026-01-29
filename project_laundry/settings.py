@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'chemical',
     'stok_linen',
     'aset_laundry',
+    'log_pekerjaan',
     'schedule',
     'laporan',
 ]
