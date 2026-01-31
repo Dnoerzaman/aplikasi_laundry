@@ -1,4 +1,6 @@
 from django.urls import reverse_lazy
+from django.db.models import ProtectedError
+from django.shortcuts import redirect
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
@@ -37,7 +39,14 @@ class AsetUpdateView(LoginRequiredMixin, UpdateView):
 class AsetDeleteView(LoginRequiredMixin, DeleteView):
     model = Aset
     template_name = 'aset_laundry/aset_confirm_delete.html'
-    success_url = reverse_lazy('aset_laundry:aset-list')
+    success_url = '/aset/'
+
+    def post(self, request, *args, **kwargs):
+        try:
+            return self.delete(request, *args, **kwargs)
+        except ProtectedError:
+            messages.error(request, "Aset ini tidak bisa dihapus karena sudah memiliki riwayat transaksi. Hapus riwayat transaksinya terlebih dahulu.")
+            return redirect('aset_laundry:aset-list')
 
 class TransaksiAsetCreateView(LoginRequiredMixin, CreateView):
     model = TransaksiAset
